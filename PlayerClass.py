@@ -1,12 +1,33 @@
 import pygame
 import sys
 
+class HealthBar(pygame.sprite.Sprite):
+	def __init__(self, x, y):
+		pygame.sprite.Sprite.__init__(self)
+		
+		self.image = pygame.Surface([55,5])
+		self.image.fill((0, 255, 0))
+		self.rect = self.image.get_rect()
+		self.rect.x = x-20
+		self.rect.y = y -10
+		self.counter =5
+	def update(self,x,y):
+		self.rect.x = x-20
+		self.rect.y = y -10
+		if self.counter ==4:
+			self.image.fill((103,199,30))
+		if self.counter ==3:
+			self.image.fill((234,255,0))
+		if self.counter ==2:
+			self.image.fill((255,149,0))
+		if self.counter ==1:
+			self.image.fill((255,0,0))
 class Bullet(pygame.sprite.Sprite):
 
-	def __init__(self,x,y,facing):
+	def __init__(self,x,y,facing,time):
 		pygame.sprite.Sprite.__init__(self)
 
-		self.image = pygame.Surface([4, 4])
+		self.image = pygame.Surface([time*4, time*4])
 		self.image.fill((0,0,255))
 		self.rect = self.image.get_rect()
 		self.rect.x =x
@@ -37,6 +58,7 @@ class Player(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.x =x
 		self.rect.y =y
+		self.health = HealthBar(self.rect.x, self.rect.y)
 
 	def update(self, blocks):
 
@@ -70,6 +92,7 @@ class Player(pygame.sprite.Sprite):
 			self.jump_ok = False
 		
 		self.frame_since_collision += 1
+		self.health.update(self.rect.x, self.rect.y)
 
 	def calc_grav(self):
 		self.change_y += .98 #gravity constant

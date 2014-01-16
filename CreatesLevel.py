@@ -22,7 +22,8 @@ class Level:
 		self.border=pygame.sprite.Group()
 		self.all_sprite = pygame.sprite.Group() #list of all sprites
 		self.level = open(blueprint, "r")
-		
+		self.player_sprite = pygame.sprite.Group()
+		self.enemy_sprite = pygame.sprite.Group()
 		
 	
 	def levelCreate(self,x,y):
@@ -43,9 +44,14 @@ class Level:
 					user = Player(x,y)
 					self.player = user
 					self.all_sprite.add(user)
+					self.player_sprite.add(user)
 				x += 25
 			y+=25
 			x=0
+	def getSize(self):
+		rows =len(self.level1)
+		col = len(self.level1[0])
+		return [rows*25, col*25]
 					
 					
 			
